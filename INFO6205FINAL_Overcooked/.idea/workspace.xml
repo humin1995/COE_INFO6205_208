@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="b42f90c5-8094-45f9-b32a-112998859c3e" name="Default" comment="" />
+    <list default="true" id="fd24f464-d6f0-413e-9919-9250deafa50c" name="Default" comment="" />
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -40,10 +40,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="PackagesPane" />
-      <pane id="Scope" />
-      <pane id="Scratches" />
-      <pane id="AndroidView" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -56,10 +52,20 @@
               <item name="INFO6205FINAL_Overcooked" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
             </path>
+            <path>
+              <item name="INFO6205FINAL_Overcooked" type="b2602c69:ProjectViewProjectNode" />
+              <item name="INFO6205FINAL_Overcooked" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="Cook" type="462c0819:PsiDirectoryNode" />
+            </path>
           </expand>
           <select />
         </subPane>
       </pane>
+      <pane id="Scratches" />
+      <pane id="Scope" />
+      <pane id="PackagesPane" />
+      <pane id="AndroidView" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -170,17 +176,17 @@
   </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="b42f90c5-8094-45f9-b32a-112998859c3e" name="Default" comment="" />
-      <created>1543442448356</created>
+      <changelist id="fd24f464-d6f0-413e-9919-9250deafa50c" name="Default" comment="" />
+      <created>1543444244950</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1543442448356</updated>
-      <workItem from="1543442451307" duration="13000" />
+      <updated>1543444244950</updated>
+      <workItem from="1543444248437" duration="5000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="13000" />
+    <option name="totallyTimeSpent" value="5000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1440" height="900" extended-state="0" />
