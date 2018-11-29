@@ -1,5 +1,10 @@
 package Cook;
 
+import com.sun.tools.javah.Gen;
+
+/**
+ * Created by Min Hu on 2018/11/28.
+ */
 public class Generation {
     public int population;
     public Cook[] generation;
@@ -46,5 +51,167 @@ public class Generation {
         System.out.println();
     }
 
+    public int bestScore(){
+        int bestScore = 0;
+        for(int i = 0; i<generation.length; i++){
+            if(generation[i].score >bestScore){
+                bestScore = generation[i].score;
+            }
+        }
+        return bestScore;
+    }
 
+
+
+    public double averageScore(){
+        double sum = 0;
+        for(int i = 0; i<generation.length; i++){
+            if(generation[i].score >0){
+                sum += generation[i].score;
+            }else{
+                sum += 0.1;
+            }
+        }
+    }
+
+    public int[] getbestScoreLocation(){
+        int best = bestScore();
+        int bestCount = 0;
+        int[] resultContainer = new int[EVOLUTION.POPULATION];
+
+        for(int i=0;i<population;i++){
+            if(generation[i].score==best){
+                resultContainer[bestCount] = generation[i].score;
+                bestCount++;
+            }
+        }
+
+        int[] result = new int[bestCount];
+        for(int i=0;i<bestCount;i++){
+            result[i] = resultContainer[i];
+        }
+        return result;
+    }
+
+    public int[] getGeneByPosition(int location){
+        return generation[location].gene;
+    }
+
+    public int worstScore(){
+        int worst = 0;
+        for(int i =0; i<generation.length; i++){
+            if(generation[i].score<worst){
+                worst = generation[i].score;
+            }
+        }
+        return worst;
+    }
+
+
+    public Generation generateNewGeneration(){
+
+        Generation newGeneration = new Generation(population);
+
+        selection(newGeneration);
+
+        //newGeneration.printGenerationGene();
+
+        genetic(newGeneration);
+
+        mutation(newGeneration);
+
+        return newGeneration;
+    }
+
+    public void selection(Generation newGeneration){
+        double sum = 0;
+        int bestScore = bestScore();
+        int worstScore = worstScore();
+        double[] selectionRatio = new double[population];
+        double[] circleRatio = new double[population];
+
+        for(int i = 0; i<population; i++){
+            if(generation[i].score >0)
+                sum += generation[i].score;
+            else
+                sum += 0.1;
+        }
+
+        for(int i = 0; i<population; i++){
+            if(generation[i].score >0)
+                selectionRatio[i] = generation[i].score/sum;
+            else
+                selectionRatio[i] = 0.1/sum;
+        }
+
+        for(int i =0; i<population; i++){
+            if(i==0)
+                circleRatio[i] = selectionRatio[i];
+            else
+                circleRatio[i] = circleRatio[i-1] + selectionRatio[i];
+        }
+
+        for(int i = 0; i<population; i++){
+            double a = Math.random();
+            for(int j = 0; j<population-1; j++){
+                if(a<circleRatio[0])
+                    newGeneration.generation[i].copyGene(this.generation[j].gene);
+                else if(a>circleRatio[j] && a<circleRatio[j+1])
+                    newGeneration.generation[i].copyGene(this.generation[j+1].gene);
+            }
+        }
+    }
+
+    public void reproduce(Generation newGeneration){
+        Generation dupliGeneration = new Generation(newGeneration.population);
+        for(int i = 0; i<dupliGeneration.population; i++){
+            dupliGeneration.generation[i].copyGene(this.generation[i].gene);
+        }
+
+        for(int i = 0; i<newGeneration.population; i++){
+            int spouse = (int)(Math.random()*newGeneration.population);
+            while(spouse == i){
+                spouse = (int)(Math.random()*newGeneration.population);
+            }
+
+            genetic(newGeneration.generation[i],dupliGeneration.generation[spouse]);
+        }
+    }
+
+    public void genetic(Cook c1, Cook c2){
+
+        if(c1.gene == null || c2.gene == null)
+            return;
+        if(c1.gene.length != c2.gene.length)
+            return;
+        int size = c1.gene.length;
+        int a = (int)(Math.random()*size);
+        int b = (int)(Math.random()*size);
+
+        int min = a>b?b:a;
+        int max = a>b?a:b;  //generate random gene to cross
+
+        for(int i = min; i<max; i++){
+            c1.gene[i] = c2.gene[i];
+        }
+    }
+
+    public void mutation(Generation newGeneration){
+        for(int i=0;i<newGeneration.population;i++){
+            for(int j=0;j<newGeneration.generation[i].gene.length;j++){
+                double mutate = Math.random();
+                if(mutate < EVOLUTION.MUTATIONRATE){
+                    int newGene = (int)(Math.random()*8);
+                    newGeneration.generation[i].gene[j] = newGene;
+                }
+            }
+        }
+    }
+
+    public void printGenerationGene(){
+        for(int i = 0; i<population; i++){
+            generation[i].printGene();
+            System.out.println();
+        }
+    }
 }
