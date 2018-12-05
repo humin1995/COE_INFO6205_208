@@ -1,7 +1,5 @@
 package Cook;
-
-import com.sun.tools.javah.Gen;
-
+import Evolution.*;
 /**
  * Created by Min Hu on 2018/11/28.
  */
@@ -72,16 +70,18 @@ public class Generation {
                 sum += 0.1;
             }
         }
+        return sum/generation.length;
     }
 
-    public int[] getbestScoreLocation(){
+    public int[] getBestScoreLocation(){
         int best = bestScore();
         int bestCount = 0;
-        int[] resultContainer = new int[EVOLUTION.POPULATION];
+        int[] resultContainer = new int[Evolution.COOK_NUM];
 
         for(int i=0;i<population;i++){
             if(generation[i].score==best){
-                resultContainer[bestCount] = generation[i].score;
+//                resultContainer[bestCount] = generation[i].score;
+                resultContainer[bestCount] = i;
                 bestCount++;
             }
         }
@@ -114,11 +114,14 @@ public class Generation {
 
         selection(newGeneration);
 
-        //newGeneration.printGenerationGene();
+//        newGeneration.printGenerationGene();
 
-        genetic(newGeneration);
+        reproduce(newGeneration);
 
         mutation(newGeneration);
+//        System.out.println();
+
+//        newGeneration.printGenerationGene();
 
         return newGeneration;
     }
@@ -135,6 +138,7 @@ public class Generation {
                 sum += generation[i].score;
             else
                 sum += 0.1;
+//            System.out.println("sum: "+sum);
         }
 
         for(int i = 0; i<population; i++){
@@ -142,6 +146,7 @@ public class Generation {
                 selectionRatio[i] = generation[i].score/sum;
             else
                 selectionRatio[i] = 0.1/sum;
+//            System.out.println("selectionRatio: "+selectionRatio[i]);
         }
 
         for(int i =0; i<population; i++){
@@ -149,16 +154,25 @@ public class Generation {
                 circleRatio[i] = selectionRatio[i];
             else
                 circleRatio[i] = circleRatio[i-1] + selectionRatio[i];
+
+//            System.out.println("rate: "+circleRatio[i]);
         }
 
         for(int i = 0; i<population; i++){
+
             double a = Math.random();
             for(int j = 0; j<population-1; j++){
-                if(a<circleRatio[0])
+                if(a<circleRatio[0]){
                     newGeneration.generation[i].copyGene(this.generation[j].gene);
-                else if(a>circleRatio[j] && a<circleRatio[j+1])
+                    break;
+                }
+                else if(a>circleRatio[j] && a<circleRatio[j+1]){
                     newGeneration.generation[i].copyGene(this.generation[j+1].gene);
+                    break;
+                }
+
             }
+//            System.out.println("newGeneration generation[]: "+newGeneration.generation[i].gene);
         }
     }
 
@@ -174,24 +188,27 @@ public class Generation {
                 spouse = (int)(Math.random()*newGeneration.population);
             }
 
-            genetic(newGeneration.generation[i],dupliGeneration.generation[spouse]);
+            crossover(newGeneration.generation[i],dupliGeneration.generation[spouse]);
         }
     }
 
-    public void genetic(Cook c1, Cook c2){
+    public void crossover(Cook c1, Cook c2){
 
         if(c1.gene == null || c2.gene == null)
             return;
         if(c1.gene.length != c2.gene.length)
             return;
-        int size = c1.gene.length;
-        int a = (int)(Math.random()*size);
-        int b = (int)(Math.random()*size);
-
-        int min = a>b?b:a;
-        int max = a>b?a:b;  //generate random gene to cross
-
-        for(int i = min; i<max; i++){
+//        int size = c1.gene.length;
+//        int a = (int)(Math.random()*size);
+//        int b = (int)(Math.random()*size);
+//
+//        int min = a>b?b:a;
+//        int max = a>b?a:b;  //generate random gene to cross
+//
+//        for(int i = min; i<max; i++){
+//            c1.gene[i] = c2.gene[i];
+//        }
+        for(int i=1;i<c1.gene.length;i=i+2){
             c1.gene[i] = c2.gene[i];
         }
     }
@@ -200,7 +217,7 @@ public class Generation {
         for(int i=0;i<newGeneration.population;i++){
             for(int j=0;j<newGeneration.generation[i].gene.length;j++){
                 double mutate = Math.random();
-                if(mutate < EVOLUTION.MUTATIONRATE){
+                if(mutate < Evolution.MUTATION_RATE){
                     int newGene = (int)(Math.random()*8);
                     newGeneration.generation[i].gene[j] = newGene;
                 }
