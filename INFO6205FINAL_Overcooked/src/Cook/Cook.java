@@ -1,5 +1,8 @@
 package Cook;
-
+import Evolution.Evolution;
+/**
+ * Created by Min Hu on 2018/11/28.
+ */
 public class Cook {
         public int score ;
 
@@ -47,25 +50,11 @@ public class Cook {
         }
 
         public void singleAction(int[][] map){
-//            int state[] = new int[5];
-//
-//            state[0] = map[position[0]][position[1]];          // Current Position
-//            state[1] = map[position[0]][position[1]-1];        // Left
-//            state[2] = map[position[0]+1][position[1]];       // Bottom
-//            state[3] = map[position[0]][position[1]+1];       // Right
-//            state[4] = map[position[0]-1][position[1]];       // Top
-//
-//            int genePos = (int)(Math.pow(3,4)*state[0]
-//                    +Math.pow(3,3)*state[1]
-//                    +Math.pow(3,2)*state[2]
-//                    +Math.pow(3,1)*state[3]
-//                    +Math.pow(3,0)*state[4]);
 
             int genePos = (int)(Math.random()*255);
             int gene = this.getGeneByIndex(genePos);
 
 //            System.out.println(" gene: "+gene);
-//            System.out.println(" pos before: "+pos[0]+" "+pos[1]);
 
             switch (gene){
                 case 0:
@@ -73,19 +62,16 @@ public class Cook {
                     break;
                 case 1:
                     moveLeft(map);
-                    //replaceRoutewith4();
                     break;
                 case 2:
                     moveDown(map);
-                    //replaceRoutewith4();
                     break;
                 case 3:
                     moveRight(map);
-                    //replaceRoutewith4();
                     break;
                 case 4:
                     moveUp(map);
-                    //replaceRoutewith4();
+
                     break;
                 case 5:
                     putSalmon(map);
@@ -97,8 +83,6 @@ public class Cook {
                     putMileTea(map);
                     break;
             }
-
-//            recordTrace(map);
 
 //            System.out.println(" pos after: "+position[0]+" "+position[1]);
 //            System.out.println(" score: "+score);
