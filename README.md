@@ -18,7 +18,7 @@ One chef has eight behaviors which are stay in the cell, move one step to north,
 
 ![ABC](https://github.com/humin1995/COE_INFO6205_208/blob/master/image/image2.png)
 
-##### gene design
+#### gene design
 We design genes inside a chef as a list of genens to decide their behaviors. For a gene of N bases, there are 4^N different possible ‘alleles’, so we decide each gene sequence has 256(=4^4) genes. Each gene has 8 possibilities which are number from 0 to 7 and the position of each gene in a gene sequence is randomly sort from 0 to 255.
 
 ![ABC](https://github.com/humin1995/COE_INFO6205_208/blob/master/image/image3.png) 
